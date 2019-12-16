@@ -56,7 +56,6 @@ class LoginPage extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <Container style={styles.mainContainer}>
         <Card style={styles.card}>

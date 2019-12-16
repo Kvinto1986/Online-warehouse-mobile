@@ -8,23 +8,25 @@ import LoginPage from './src/LoginPage';
 const CustomRoute = props => {
   return (
     <Router hideNavBar="true">
-      <Scene key="root">
+      <Scene key="root" hideNavBar={true}>
         {!props.auth.isAuthenticated ? (
           <Scene
             key="loginPage"
             component={LoginPage}
             title="WAREHOUSE ONLINE"
-            initial={true}
           />
         ) : (
           <>
             <Scene
               key="pageOne"
               component={PageOne}
-              title="WAREHOUSE ONLINE"
-              initial={true}
+              title="Search warehouse by license number"
             />
-            <Scene key="pageTwo" component={PageTwo} title="WAREHOUSE ONLINE" />
+            <Scene
+              key="pageTwo"
+              component={PageTwo}
+              title="Warehouse information"
+            />
           </>
         )}
       </Scene>
