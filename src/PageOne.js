@@ -15,10 +15,18 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {getWarehouse} from '../actions/warehouseActions';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {ImageBackground} from 'react-native';
+import backImage from './resources/pexels-photo-2310642.jpeg';
 
 const styles = {
   mainContainer: {
     backgroundColor: '#E6E6E6',
+  },
+  text: {
+    marginTop: '20%',
+    width: '100%',
+    textAlign: 'center',
+    color: 'white',
   },
   card: {
     marginTop: '5%',
@@ -29,16 +37,14 @@ const styles = {
   form: {
     marginTop: '5%',
     marginRight: '5%',
-    marginBottom: '15%',
-  },
-  text: {
-    width: '100%',
-    textAlign: 'center',
   },
   button: {
     width: '50%',
-    marginTop: '5%',
+    marginTop: '65%',
     marginLeft: '25%',
+  },
+  spinner: {
+    color: 'white',
   },
 };
 
@@ -52,7 +58,7 @@ class PageOne extends Component {
     const spinner = () => {
       this.setState({spinner: !this.state.spinner});
     };
-    spinner()
+    spinner();
     const nextPage = () => {
       Actions.pageTwo();
       spinner();
@@ -72,8 +78,12 @@ class PageOne extends Component {
           textContent={'Loading...'}
           animation="fade"
           size="large"
+          textStyle={styles.spinner}
         />
-        <Card style={styles.card}>
+        <ImageBackground
+          source={backImage}
+          style={{width: '100%', height: '100%'}}>
+          <H1 style={styles.text}> Log in to your account </H1>
           <Form style={styles.form}>
             <Item floatingLabel>
               <Label>License number</Label>
@@ -83,12 +93,10 @@ class PageOne extends Component {
               />
             </Item>
           </Form>
-          <CardItem footer>
-            <Button rounded style={styles.button} onPress={this.handleSubmit}>
-              <Text style={styles.text}>search</Text>
-            </Button>
-          </CardItem>
-        </Card>
+          <Button rounded style={styles.button} onPress={this.handleSubmit}>
+            <Text style={styles.text}>search</Text>
+          </Button>
+        </ImageBackground>
       </Container>
     );
   }

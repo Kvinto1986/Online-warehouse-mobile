@@ -23,6 +23,10 @@ class CustomRoute extends Component {
                 key="pageOne"
                 component={PageOne}
                 title="Search warehouse by license number"
+                titleStyle={{color:'white'}}
+                navigationBarStyle={{
+                  backgroundColor: '#282E29',
+                }}
               />
               <Scene
                 key="pageTwo"

@@ -14,6 +14,9 @@ import {
   H1,
   CardItem,
 } from 'native-base';
+import {ImageBackground} from 'react-native';
+
+import backImage from './resources/pexels-photo-2098427.jpeg';
 
 const styles = {
   mainContainer: {
@@ -24,6 +27,7 @@ const styles = {
     marginLeft: '5%',
     marginBottom: '15%',
     width: '90%',
+    backgroundColor: null,
   },
   form: {
     marginTop: '5%',
@@ -31,20 +35,29 @@ const styles = {
     marginBottom: '15%',
   },
   text: {
+    marginTop: '20%',
     width: '100%',
     textAlign: 'center',
+    color: 'white',
   },
+  label: {
+    color: 'white',
+  },
+  input: {
+    color: 'white',
+  },
+
   button: {
     width: '50%',
-    marginTop: '65%',
+    marginTop: '62%',
     marginLeft: '25%',
   },
-  spinner: {
+  spinnerText: {
     color: 'white',
   },
 };
 
-class LoginPage extends Component{
+class LoginPage extends Component {
   state = {
     email: '',
     password: '',
@@ -68,38 +81,39 @@ class LoginPage extends Component{
   render() {
     return (
       <Container style={styles.mainContainer}>
-        <Spinner
-          visible={this.state.spinner}
-          textContent={'Loading...'}
-          animation="fade"
-          size="large"
-        />
-        <Card style={styles.card}>
-          <CardItem header bordered>
-            <H1 style={styles.text}> Log in to your account </H1>
-          </CardItem>
+        <ImageBackground
+          source={backImage}
+          style={{width: '100%', height: '100%'}}>
+          <Spinner
+            visible={this.state.spinner}
+            textContent={'Loading...'}
+            animation="fade"
+            size="large"
+            textStyle={styles.spinnerText}
+          />
+          <H1 style={styles.text}> Log in to your account </H1>
           <Form style={styles.form}>
             <Item floatingLabel>
-              <Label>Email</Label>
+              <Label style={styles.label}>Email</Label>
               <Input
+                style={styles.input}
                 type="email"
                 onChangeText={e => this.setState({email: e})}
               />
             </Item>
             <Item floatingLabel>
-              <Label>Password</Label>
+              <Label style={styles.label}>Password</Label>
               <Input
+                style={styles.input}
                 secureTextEntry={true}
                 onChangeText={e => this.setState({password: e})}
               />
             </Item>
           </Form>
-          <CardItem footer>
-            <Button rounded style={styles.button} onPress={this.handleSubmit}>
-              <Text style={styles.text}>sign in</Text>
-            </Button>
-          </CardItem>
-        </Card>
+          <Button rounded style={styles.button} onPress={this.handleSubmit}>
+            <Text style={styles.text}>sign in</Text>
+          </Button>
+        </ImageBackground>
       </Container>
     );
   }
