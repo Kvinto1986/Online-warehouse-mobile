@@ -9,10 +9,12 @@ import {
   Label,
   Card,
   CardItem,
+  H1,
 } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {getWarehouse} from '../actions/warehouseActions';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const styles = {
   mainContainer: {
@@ -41,12 +43,20 @@ const styles = {
 };
 
 class PageOne extends Component {
-  state: {
-    license: null,
+  state = {
+    license: '',
+    spinner: false,
   };
 
   handleSubmit = () => {
-    const nextPage = () => Actions.pageTwo();
+    const spinner = () => {
+      this.setState({spinner: !this.state.spinner});
+    };
+    spinner()
+    const nextPage = () => {
+      Actions.pageTwo();
+      spinner();
+    };
     this.props.getWarehouse(
       this.state.license,
       this.props.auth.token,
@@ -57,6 +67,12 @@ class PageOne extends Component {
   render() {
     return (
       <Container style={styles.mainContainer}>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          animation="fade"
+          size="large"
+        />
         <Card style={styles.card}>
           <Form style={styles.form}>
             <Item floatingLabel>

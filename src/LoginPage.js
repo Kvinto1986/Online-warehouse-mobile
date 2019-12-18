@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {loginUser} from '../actions/authAction';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {
   Container,
   Form,
@@ -11,8 +14,6 @@ import {
   H1,
   CardItem,
 } from 'native-base';
-import {connect} from 'react-redux';
-import {loginUser} from '../actions/authAction';
 
 const styles = {
   mainContainer: {
@@ -38,12 +39,16 @@ const styles = {
     marginTop: '65%',
     marginLeft: '25%',
   },
+  spinner: {
+    color: 'white',
+  },
 };
 
-class LoginPage extends Component {
-  state: {
-    email: null,
-    password: null,
+class LoginPage extends Component{
+  state = {
+    email: '',
+    password: '',
+    spinner: false,
   };
 
   handleSubmit = () => {
@@ -52,12 +57,23 @@ class LoginPage extends Component {
       password: this.state.password,
     };
 
-    this.props.loginUser(user);
+    const spinner = () => {
+      this.setState({spinner: !this.state.spinner});
+    };
+
+    spinner();
+    this.props.loginUser(user, spinner);
   };
 
   render() {
     return (
       <Container style={styles.mainContainer}>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          animation="fade"
+          size="large"
+        />
         <Card style={styles.card}>
           <CardItem header bordered>
             <H1 style={styles.text}> Log in to your account </H1>

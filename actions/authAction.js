@@ -10,7 +10,7 @@ export const setCurrentUser = (decoded, token) => {
   };
 };
 
-export const loginUser = user => dispatch => {
+export const loginUser = (user, spinner) => dispatch => {
   console.log(user);
   axios
     .post('https://warehouse-online-backend.herokuapp.com/api/login', user)
@@ -18,5 +18,6 @@ export const loginUser = user => dispatch => {
       const {token} = res.data;
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded, token));
-    });
+    })
+    .then(spinner());
 };
