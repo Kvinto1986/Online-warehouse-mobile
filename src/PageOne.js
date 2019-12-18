@@ -83,7 +83,7 @@ class PageOne extends Component {
         <ImageBackground
           source={backImage}
           style={{width: '100%', height: '100%'}}>
-          <H1 style={styles.text}> Log in to your account </H1>
+          <H1 style={styles.text}> Enter warehouse license number </H1>
           <Form style={styles.form}>
             <Item floatingLabel>
               <Label>License number</Label>
