@@ -55,7 +55,6 @@ class PageOne extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <Container style={styles.mainContainer}>
         <Card style={styles.card}>

@@ -20,3 +20,5 @@ export const getWarehouse = (license, token, nextPage) => dispatch => {
       nextPage();
     });
 };
+
+
