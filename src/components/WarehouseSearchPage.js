@@ -7,22 +7,27 @@ import {
   Item,
   Input,
   Label,
-  Card,
-  CardItem,
   H1,
+  Content,
 } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
-import {getWarehouse} from '../actions/warehouseActions';
+import {getWarehouse} from '../../actions/warehouseActions';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {ImageBackground} from 'react-native';
-import backImage from './resources/pexels-photo-2310642.jpeg';
+import backImage from '../resources/pexels-photo-2310642.jpeg';
 
 const styles = {
   mainContainer: {
     backgroundColor: '#E6E6E6',
   },
   text: {
+    width: '100%',
+    marginTop: '22%',
+    textAlign: 'center',
+    color: 'white',
+  },
+  h1: {
     marginTop: '20%',
     width: '100%',
     textAlign: 'center',
@@ -35,20 +40,28 @@ const styles = {
     width: '90%',
   },
   form: {
-    marginTop: '5%',
-    marginRight: '5%',
+    marginTop: '25%',
+    marginRight: '10%',
+    marginLeft: '5%',
   },
   button: {
-    width: '50%',
-    marginTop: '65%',
-    marginLeft: '25%',
+    marginTop: '70%',
+    width: '83%',
+    marginLeft: '8%',
   },
   spinner: {
     color: 'white',
   },
+  label: {
+    color: 'white',
+  },
+  input: {
+    color: 'white',
+  },
+  error: {color: 'red', marginLeft: '4%', marginTop: '2%'},
 };
 
-class PageOne extends Component {
+class WarehouseSearchPage extends Component {
   state = {
     license: '',
     spinner: false,
@@ -60,13 +73,14 @@ class PageOne extends Component {
     };
     spinner();
     const nextPage = () => {
-      Actions.pageTwo();
+      Actions.warehouseInfoPage();
       spinner();
     };
     this.props.getWarehouse(
       this.state.license,
       this.props.auth.token,
       nextPage,
+      spinner,
     );
   };
 
@@ -75,7 +89,7 @@ class PageOne extends Component {
       <Container style={styles.mainContainer}>
         <Spinner
           visible={this.state.spinner}
-          textContent={'Loading...'}
+          textContent={'Searching...'}
           animation="fade"
           size="large"
           textStyle={styles.spinner}
@@ -83,19 +97,27 @@ class PageOne extends Component {
         <ImageBackground
           source={backImage}
           style={{width: '100%', height: '100%'}}>
-          <H1 style={styles.text}> Enter warehouse license number </H1>
+          <H1 style={styles.h1}> Search warehouse by license </H1>
           <Form style={styles.form}>
-            <Item floatingLabel>
-              <Label>License number</Label>
+            <Item floatingLabel error={this.props.errors.warehouse}>
+              <Label style={styles.label}>License number</Label>
               <Input
+                autoFocus={true}
+                autoCorrect={true}
+                style={styles.input}
                 type="email"
                 onChangeText={text => this.setState({license: text})}
               />
             </Item>
+            {this.props.errors.warehouse && (
+              <Text style={styles.error}>{this.props.errors.warehouse}</Text>
+            )}
           </Form>
-          <Button rounded style={styles.button} onPress={this.handleSubmit}>
-            <Text style={styles.text}>search</Text>
-          </Button>
+          <Content style={styles.button}>
+            <Button block success onPress={this.handleSubmit}>
+              <Text>search</Text>
+            </Button>
+          </Content>
         </ImageBackground>
       </Container>
     );
@@ -105,9 +127,10 @@ class PageOne extends Component {
 const mapStateToProps = state => ({
   warehouse: state.warehouse,
   auth: state.auth,
+  errors: state.errors,
 });
 
 export default connect(
   mapStateToProps,
   {getWarehouse},
-)(PageOne);
+)(WarehouseSearchPage);

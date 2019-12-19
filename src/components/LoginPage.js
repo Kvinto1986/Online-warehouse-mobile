@@ -1,22 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {loginUser} from '../actions/authAction';
+import {loginUser} from '../../actions/authAction';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {
   Container,
   Form,
   Item,
   Input,
-  Card,
   Label,
   Button,
   Text,
   H1,
-  CardItem,
+  Content,
 } from 'native-base';
 import {ImageBackground} from 'react-native';
-
-import backImage from './resources/pexels-photo-2098427.jpeg';
+import backImage from '../resources/pexels-photo-2098427.jpeg';
 
 const styles = {
   mainContainer: {
@@ -31,10 +29,17 @@ const styles = {
   },
   form: {
     marginTop: '5%',
-    marginRight: '5%',
+    marginRight: '10%',
+    marginLeft: '5%',
     marginBottom: '15%',
   },
   text: {
+    marginTop: '20%',
+    width: '100%',
+    textAlign: 'center',
+    color: 'white',
+  },
+  h1: {
     marginTop: '20%',
     width: '100%',
     textAlign: 'center',
@@ -46,15 +51,16 @@ const styles = {
   input: {
     color: 'white',
   },
-
   button: {
-    width: '50%',
-    marginTop: '62%',
-    marginLeft: '25%',
+    marginTop: '55%',
+    width: '83%',
+    marginLeft: '8%',
   },
+  backGround: {width: '100%', height: '100%'},
   spinnerText: {
     color: 'white',
   },
+  error: {color: 'red', marginLeft: '4%', marginTop: '2%'},
 };
 
 class LoginPage extends Component {
@@ -81,38 +87,49 @@ class LoginPage extends Component {
   render() {
     return (
       <Container style={styles.mainContainer}>
-        <ImageBackground
-          source={backImage}
-          style={{width: '100%', height: '100%'}}>
+        <ImageBackground source={backImage} style={styles.backGround}>
           <Spinner
             visible={this.state.spinner}
-            textContent={'Loading...'}
+            textContent={'User data verification...'}
             animation="fade"
             size="large"
             textStyle={styles.spinnerText}
           />
-          <H1 style={styles.text}> Log in to your account </H1>
+          <H1 style={styles.h1}> Log in to your account </H1>
           <Form style={styles.form}>
-            <Item floatingLabel>
+            <Item floatingLabel error={this.props.errors.email}>
               <Label style={styles.label}>Email</Label>
               <Input
+                autoFocus={true}
+                autoCompleteType="email"
+                autoCorrect={true}
                 style={styles.input}
-                type="email"
+                textContentType="emailAddress"
                 onChangeText={e => this.setState({email: e})}
               />
             </Item>
-            <Item floatingLabel>
+            {this.props.errors.email && (
+              <Text style={styles.error}>{this.props.errors.email}</Text>
+            )}
+            <Item floatingLabel error={this.props.errors.password}>
               <Label style={styles.label}>Password</Label>
               <Input
+                autoCompleteType="password"
                 style={styles.input}
                 secureTextEntry={true}
+                textContentType="password"
                 onChangeText={e => this.setState({password: e})}
               />
             </Item>
+            {this.props.errors.password && (
+              <Text style={styles.error}>{this.props.errors.password}</Text>
+            )}
           </Form>
-          <Button rounded style={styles.button} onPress={this.handleSubmit}>
-            <Text style={styles.text}>sign in</Text>
-          </Button>
+          <Content style={styles.button}>
+            <Button block success onPress={this.handleSubmit}>
+              <Text>Sign in</Text>
+            </Button>
+          </Content>
         </ImageBackground>
       </Container>
     );
@@ -121,6 +138,7 @@ class LoginPage extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  errors: state.errors,
 });
 
 export default connect(

@@ -2,3 +2,5 @@ export const GET_ERRORS = 'GET_ERRORS';
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
 export const GET_CURRENT_WAREHOUSE = 'GET_CURRENT_WAREHOUSE';
 export const CURRENT_PRODUCTS = 'CURRENT_PRODUCTS';
+export const ERRORS = 'ERRORS';
+

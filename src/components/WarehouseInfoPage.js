@@ -4,39 +4,43 @@ import {
   Content,
   Text,
   Card,
-  Header,
   Body,
   Button,
-  Title,
   CardItem,
-  Accordion,
   List,
   ListItem,
   Icon,
   Right,
   Left,
-  Drawer,
   Thumbnail,
 } from 'native-base';
 import {Image, Linking, Platform} from 'react-native';
-import {Root} from 'native-base';
-import {OpenMap} from 'react-native-open-map';
 import {Actions} from 'react-native-router-flux';
-import {setProducts} from '../actions/productsAction';
+import {setProducts} from '../../actions/productsAction';
 import {StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
-import warehouseImage from './resources/image.png';
+import warehouseImage from '../resources/image.png';
 
 const styles = StyleSheet.create({
   icon: {
     marginRight: '2%',
+    color: 'white',
+  },
+  mainContainer: {
+    backgroundColor: '#282E29',
+  },
+  list: {
+    backgroundColor: '#454545',
+  },
+  text: {
+    color: 'white',
   },
 });
 
-class PageTwo extends Component {
+class WarehouseInfoPage extends Component {
   handleSetAreaInfo = data => {
     this.props.setProducts(data);
-    Actions.pageThree();
+    Actions.productsInfoPage();
   };
 
   render() {
@@ -46,16 +50,16 @@ class PageTwo extends Component {
           <ListItem onPress={() => this.handleSetAreaInfo(elem.products)}>
             <Left>
               <Icon active style={styles.icon} name="home" />
-              <Text>
+              <Text style={styles.text}>
                 {elem.type.toUpperCase()} (free {elem.freeArea} out of{' '}
                 {elem.area})
               </Text>
             </Left>
             <Right>
-              <Icon name="arrow-forward" />
+              <Icon name="arrow-forward" style={styles.icon} />
             </Right>
           </ListItem>
-          <ListItem itemDivider />
+          <ListItem itemDivider style={styles.mainContainer} />
         </Fragment>
       );
     });
@@ -70,14 +74,14 @@ class PageTwo extends Component {
     });
 
     return (
-      <Container>
+      <Container style={styles.mainContainer}>
         <Content>
           <Card>
-            <CardItem>
+            <CardItem style={styles.list}>
               <Left>
                 <Thumbnail source={warehouseImage} />
                 <Body>
-                  <Text>{this.props.warehouse.name}</Text>
+                  <Text style={styles.text}>{this.props.warehouse.name}</Text>
                   <Text note>License №{this.props.warehouse.id}</Text>
                 </Body>
               </Left>
@@ -88,11 +92,13 @@ class PageTwo extends Component {
                 style={{height: 200, width: null, flex: 1}}
               />
             </CardItem>
-            <CardItem>
+            <CardItem style={styles.list}>
               <Left>
                 <Button transparent>
-                  <Icon active name="star" />
-                  <Text>Free area: {this.props.warehouse.freeArea}</Text>
+                  <Icon active style={styles.text} name="star" />
+                  <Text style={styles.text}>
+                    Free area: {this.props.warehouse.freeArea}
+                  </Text>
                 </Button>
               </Left>
               <Right>
@@ -101,13 +107,16 @@ class PageTwo extends Component {
                   onPress={() => {
                     Linking.openURL(url);
                   }}>
-                  <Icon active name="map" />
-                  <Text>Check on map</Text>
+                  <Icon active style={styles.text} name="map" />
+                  <Text style={styles.text}>Check on map</Text>
                 </Button>
               </Right>
             </CardItem>
           </Card>
-          <List>{currentWarehouseArray}</List>
+          <List style={styles.list}>
+            <ListItem itemDivider style={styles.mainContainer} />
+            {currentWarehouseArray}
+          </List>
         </Content>
       </Container>
     );
@@ -122,4 +131,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {setProducts},
-)(PageTwo);
+)(WarehouseInfoPage);

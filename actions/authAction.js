@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_CURRENT_USER} from './types';
+import {GET_CURRENT_USER, ERRORS} from './types';
 import jwt_decode from 'jwt-decode';
 
 export const setCurrentUser = (decoded, token) => {
@@ -19,5 +19,20 @@ export const loginUser = (user, spinner) => dispatch => {
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded, token));
     })
-    .then(spinner());
+    .then(() => {
+      dispatch({
+        type: ERRORS,
+        payload: {},
+      });
+      spinner();
+    })
+    .catch(err => {
+      if (err.response) {
+        dispatch({
+          type: ERRORS,
+          payload: err.response.data,
+        });
+      }
+      spinner();
+    });
 };

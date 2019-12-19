@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {GET_CURRENT_WAREHOUSE} from './types';
+import {ERRORS, GET_CURRENT_WAREHOUSE} from './types';
 
-export const getWarehouse = (license, token, nextPage) => dispatch => {
+export const getWarehouse = (license, token, nextPage, spinner) => dispatch => {
   let config = {
     headers: {
       Authorization: token,
@@ -18,7 +18,20 @@ export const getWarehouse = (license, token, nextPage) => dispatch => {
         payload: res.data,
       });
       nextPage();
+    })
+    .then(() => {
+      dispatch({
+        type: ERRORS,
+        payload: {},
+      });
+    })
+    .catch(err => {
+      if (err.response) {
+        dispatch({
+          type: ERRORS,
+          payload: err.response.data,
+        });
+        spinner();
+      }
     });
 };
-
-
