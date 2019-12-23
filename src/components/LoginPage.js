@@ -96,11 +96,10 @@ class LoginPage extends Component {
             textStyle={styles.spinnerText}
           />
           <H1 style={styles.h1}> Log in to your account </H1>
-          <Form style={styles.form}>
+          <Form style={styles.form} onSubmit={this.handleSubmit}>
             <Item floatingLabel error={this.props.errors.email}>
               <Label style={styles.label}>Email</Label>
               <Input
-                autoFocus={true}
                 autoCompleteType="email"
                 autoCorrect={true}
                 style={styles.input}

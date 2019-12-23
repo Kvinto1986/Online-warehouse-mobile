@@ -1,19 +1,19 @@
 import axios from 'axios';
-import {GET_CURRENT_USER, ERRORS} from './types';
+import {CURRENT_USER, ERRORS} from './types';
 import jwt_decode from 'jwt-decode';
+import {serverConfig} from '../serverConfig';
 
 export const setCurrentUser = (decoded, token) => {
   return {
-    type: GET_CURRENT_USER,
+    type: CURRENT_USER,
     payload: decoded,
     token: token,
   };
 };
 
 export const loginUser = (user, spinner) => dispatch => {
-  console.log(user);
   axios
-    .post('https://warehouse-online-backend.herokuapp.com/api/login', user)
+    .post(`${serverConfig}login`, user)
     .then(res => {
       const {token} = res.data;
       const decoded = jwt_decode(token);

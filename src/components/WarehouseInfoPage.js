@@ -19,7 +19,7 @@ import {Actions} from 'react-native-router-flux';
 import {setProducts} from '../../actions/productsAction';
 import {StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
-import warehouseImage from '../resources/image.png';
+import warehouseImage from '../resources/warehouse.png';
 
 const styles = StyleSheet.create({
   icon: {

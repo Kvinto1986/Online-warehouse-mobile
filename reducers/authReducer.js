@@ -1,4 +1,4 @@
-import {GET_CURRENT_USER} from '../actions/types';
+import {CURRENT_USER} from '../actions/types';
 
 const isEmpty = value => {
   return (
@@ -16,7 +16,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_CURRENT_USER:
+    case CURRENT_USER:
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),

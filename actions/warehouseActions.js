@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {ERRORS, GET_CURRENT_WAREHOUSE} from './types';
+import {ERRORS, CURRENT_WAREHOUSE} from './types';
+import {serverConfig} from '../serverConfig';
 
 export const getWarehouse = (license, token, nextPage, spinner) => dispatch => {
   let config = {
@@ -8,13 +9,10 @@ export const getWarehouse = (license, token, nextPage, spinner) => dispatch => {
     },
   };
   axios
-    .get(
-      `https://warehouse-online-backend.herokuapp.com/api/warehouses/${license}`,
-      config,
-    )
+    .get(`${serverConfig}warehouses/${license}`, config)
     .then(res => {
       dispatch({
-        type: GET_CURRENT_WAREHOUSE,
+        type: CURRENT_WAREHOUSE,
         payload: res.data,
       });
       nextPage();

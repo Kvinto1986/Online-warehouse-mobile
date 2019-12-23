@@ -25,7 +25,7 @@ class ProductsInfoPage extends Component {
   render() {
     const products = this.props.products.map(elem => {
       return {
-        title: <Text style={styles.text}>{elem.name}</Text>,
+        title: <Text style={styles.text}>{elem.name} (id: {elem.id})</Text>,
         content: `Amount: ${elem.amount} (${
           elem.package
         })\n\nAvailable amount: ${elem.availableAmount} (${
